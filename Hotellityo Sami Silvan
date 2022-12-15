@@ -1,0 +1,150 @@
+#include<iostream>      //tarvittavien kirjastojen lisääminen
+#include<string.h>
+#include<ctime>
+#include<math.h>
+using namespace std;
+
+const int huoneetMin = 20;   //huoneiden minimi määrä
+const int huoneetMax = 150;  //huoneiden maksimi määrä
+const int varMax = 99999;   //varausnumeron max arvo
+const int varMin = 10000;   // varausnumeron min arvo
+
+
+int huoneita(int huoneidenMaara){
+   
+    srand(time(NULL));
+    huoneidenMaara = rand()%(huoneetMax - huoneetMin)+ huoneetMin; //huoneiden määrän arvonta.
+   
+return huoneidenMaara;   //palautetaan pääohjelmaan huoneiden määrä
+}
+
+
+int varaus(int l){
+    int huoneMuuttuja[300];  //tehdään tarvittavat taulukot varausta varten
+    string nimet[300];   //string taulukko johon tallettaa asiakkaiden nimet
+    bool vapaa[300];    //bool muuttuja jotta saadaan tarkistettua huoneiden vapaus
+    int varausNumero, i = 0,haku,p,j; //yksittäiset kirjaimet juoksevia lukuja varten haku sekä varausnumero nimi kertoo
+    bool varattuHuone;  //huoneen hakua varten
+   
+    if (l == 1){
+        if (vapaa[i] = true){
+            srand(time(NULL));
+            varausNumero = rand()%(varMax - varMin)+ varMin;    //varausnumeron arvonta joka on sidottu kellonaikaan
+   
+            huoneMuuttuja[i] = varausNumero;
+            cout << "Millä nimellä huone varataan?" << endl;    //kysytään nimeä huonetta varten
+       
+            //getline(cin,nimet[i]);  getline lopetti toimintansa kun aliohjelma yhdistettiin koko ohjelmaan joten se on korvattu normaalilla cinllä
+       
+            cin >> nimet[i];    // otetaan käyttäjän syöte
+            vapaa[i] = false;   //muutetaan huone varatuksi
+            cout << "Varaus numerosi on " << huoneMuuttuja[i] << " ja varaus on nimellä " << nimet[i] << endl;   //kerrotaan käyttäjälle tilanne
+            i++;     //lisätään yksi jotta seuraavalla kerralla varataan seuraava huone
+        }
+    }
+    if (l == 0){
+        cout << "Anna huoneesi varaus numero ...";  
+        cin >> haku;    //pyydetään varausnumeroa
+            if(haku>9999){
+                for(p=0;p<300;p++){  //tarkistus koska haku ei voi olla alle 10000
+                    if(haku==huoneMuuttuja[p]){     //etsitään onko huone varattu
+                    varattuHuone = true;
+                    cout << "Olet varannut huoneen " << endl; //kerrotaan onko huone varattu
+                    }
+                }
+            }
+        if (varattuHuone==false){
+            cout << "Emme valitettavasti löytänyt huonevaraustasi..." << endl;   //kerrotaan jos huonetta ei ole varattu
+            cin.clear();
+            cin.ignore();    //kaksi edellistä riviä jotta ohjelma ei jää jumiin saadessaa virheellisiä arvoja
+        }
+        varattuHuone = false; //muutetaan muuttuja default asentoon jotta aliohjelma toimii uudestaan
+    }
+return 0;
+}
+
+
+
+int main(){
+
+    setlocale(LC_ALL, "fi_FI"); //vaihdetaan kieleksi suomi
+    int i,l,varata = 1, hakea = 0;//alustetaan i jotta voidaan kysyä öiden määrää
+    double d;
+    int vapaatHuoneet = huoneita(vapaatHuoneet); //haetaan arvottu huoneiden määrä
+    int yhdenHuone = vapaatHuoneet; //määritellään yhdenhengen huoneiden määrä
+    int kahdenHuone = vapaatHuoneet; //määritellään kahdenhengen huoneiden määrä
+   
+   
+    bool sammutus=true; //ohjelman lopetusta varten
+    int tilanne=0; //valikossa navigointiin
+    while(sammutus==true){
+        cout << "Vapaiden huoneiden maara: " << yhdenHuone + kahdenHuone << " joista yhdenhengen: " << yhdenHuone << " ja kahden: " << kahdenHuone << "\n";
+        cout << "mita haluat tehda...\n 1. varata yhden hengen huoneen. \n 2. varata kahden hengen huoneen. \n 3. tarkistaa varaus. \n 4. poistua ...";//valikko
+        cin >> tilanne; //käyttäjän syöte
+        if (tilanne == 1){
+            if (yhdenHuone<1){
+               cout << "Yhden hengen huoneet ovat loppu..." << endl; //tarkistetaan huoneiden saatavuus
+           }
+            else{
+                srand(time(NULL)); //sidotaan alennuksen arpoja aikaan jotta ei saada aina samaa tulosta
+                double p[3] = {1.0, 0.9, 0.8}; //alennuksen arpominen
+                l = rand()%3;
+   
+                cout << "moneksiko yöksi haluat huoneen... ";
+                cin >> i;
+                if (i > 0){
+                    d=i*100*p[l];       //lasketaan hinta alennuksen kanssa
+                    cout << "yhden hengen huoneen hinta " << i << " yöksi on " <<d<< endl;
+                    yhdenHuone--;       //miinustetaan vapaiden huoneiden määrää
+                    varaus(varata);       //varaus aliohjelman kutsu
+                }
+                else {
+                    cout << "virheellinen arvo aloita alusta... "<<endl;
+                    cin.clear();
+                    cin.ignore();    //kaksi edellistä riviä jotta ohjelma ei jää jumiin saadessaa virheellisiä arvoja
+                }
+               
+            }
+        }
+        else if (tilanne == 2){
+           if (kahdenHuone<1){
+               cout << "Kahden hengen huoneet ovat loppu..." << endl; //tarkastetaan huoneiden saatavuus
+           }
+           else{
+                srand(time(NULL)); //sidotaan alennuksen arpoja aikaan jotta ei saada aina samaa tulosta
+                double p[3] = {1.0, 0.9, 0.8}; //alennuksen arpominen
+                l = rand()%3;
+           
+           
+                cout << "moneksiko yöksi haluat huoneen... ";
+                cin >> i;
+                if (i > 0){
+                    d=i*150*p[l];           //lasketaan hinta alennuksen kanssa
+                    cout << "kahden hengen huoneen hinta " << i << " yöksi on " << d << endl;
+                    kahdenHuone--;      //miinustetaan vapaiden huoneiden määrää
+                    varaus(varata);        //varaus aliohjelman kutsu
+                }
+                else {
+                    cout << "virheellinen arvo aloita alusta... "<<endl;
+                    cin.clear();
+                    cin.ignore();    //kaksi edellistä riviä jotta ohjelma ei jää jumiin saadessaa virheellisiä arvoja
+                }
+           
+           }
+        }
+        else if (tilanne == 3){
+            varaus(hakea);  //kutsutaan aliohjelmaa hakua varten
+           
+        }
+        else if (tilanne == 4){
+            return false;} //sammutus
+       
+        else{ //ilmoitus käyttäjälle virheellisestö arvosta
+            cout << "Virheellinen arvo!\n Anna numero 1 ja 4 välillä... "<< endl;
+            cin.clear();
+            cin.ignore();    //kaksi edellistä riviä jotta ohjelma ei jää jumiin saadessaa virheellisiä arvoja
+           
+        }
+    }
+    return 0;       //lopetus
+}
